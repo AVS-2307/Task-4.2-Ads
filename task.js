@@ -1,5 +1,5 @@
 const rotatorList = Array.from(document.querySelectorAll(".rotator__case"));
-
+const rotator = Array.from(document.getElementsByClassName('rotator'));
 /* function changeRotator() {
 
 		let currentIndex = rotatorList.findIndex(
@@ -9,7 +9,7 @@ const rotatorList = Array.from(document.querySelectorAll(".rotator__case"));
             currentIndex = 0
         }
 
-        nextActiveRotator = (currentIndex + 1) % rotatorList.length
+        let nextActiveRotator = (currentIndex + 1) % rotatorList.length
         rotatorList[currentIndex].classList.remove("rotator__case_active")
         rotatorList[nextActiveRotator].classList.add("rotator__case_active")
 
@@ -33,7 +33,7 @@ function setAttrsToNext(item, color) {
     item.style.color = color
 }
 
-function showNext() {
+/* function showNext() {
 
     let currentIndex = rotatorList.findIndex(
         (rotatorCase) => rotatorCase.classList.contains("rotator__case_active")
@@ -42,7 +42,7 @@ function showNext() {
     if (currentIndex == -1) {
         currentIndex = 0
     }
-    nextActiveElem = (currentIndex + 1) % rotatorList.length
+    let nextActiveElem = (currentIndex + 1) % rotatorList.length
 
     nextElemSpeed = getSpeed(rotatorList[nextActiveElem])
     nextElemColor = getColor(rotatorList[nextActiveElem])
@@ -54,6 +54,27 @@ function showNext() {
         setAttrsToNext(rotatorList[nextActiveElem], nextElemColor);
         showNext();
     }, nextElemSpeed)
+} */
+
+function showNext() {
+    
+        rotator.forEach(elem => {
+            for (let child of elem.children) {
+                //пробежались по всем потомкам rotator
+                if (child.classList.contains('rotator__case_active') == true) {
+                    child.classList.remove('rotator__case_active');
+                    if (child.nextElementSibling) {
+                        child.nextElementSibling.classList.add('rotator__case_active');
+                        break;
+                    } else {
+                        elem.firstElementChild.classList.add('rotator__case_active');
+                        break;
+                    }
+                }
+            }
+        });        
 }
 
-showNext()
+
+setInterval(showNext, 1000);
+//showNext()
